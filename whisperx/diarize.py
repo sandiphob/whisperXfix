@@ -12,11 +12,13 @@ class DiarizationPipeline:
         self,
         model_name="pyannote/speaker-diarization-3.1",
         use_auth_token=None,
+        embedding_batch_size=1,
+        segmentation_batch_size=1,
         device: Optional[Union[str, torch.device]] = "cpu",
     ):
         if isinstance(device, str):
             device = torch.device(device)
-        self.model = Pipeline.from_pretrained(model_name, use_auth_token=use_auth_token).to(device)
+        self.model = Pipeline.from_pretrained(model_name, use_auth_token=use_auth_token, embedding_batch_size=embedding_batch_size, segmentation_batch_size=segmentation_batch_size).to(device)
 
     def __call__(self, audio: Union[str, np.ndarray], num_speakers=None, min_speakers=None, max_speakers=None):
         if isinstance(audio, str):
